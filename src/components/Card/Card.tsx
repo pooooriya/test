@@ -13,7 +13,18 @@ import {
   CardDetailBtn,
 } from "./style";
 
-const Card: React.FC = (): JSX.Element => {
+interface CardProps {
+  name: string;
+  lable: string;
+  picklable: string;
+  firstDate: string;
+  SecondDate: string;
+  secondLable: string;
+  Num: number;
+  finalLable: string;
+}
+
+const Card: React.FC<CardProps> = (props): JSX.Element => {
   const [state, setstate] = useState({
     IsShow: false,
   });
@@ -22,7 +33,6 @@ const Card: React.FC = (): JSX.Element => {
     setstate({ ...state, IsShow: !state.IsShow });
   }, [state]);
   const HandleCloseOverLay = useCallback(() => {
-    console.log("hell");
     setstate({ ...state, IsShow: false });
   }, [state]);
 
@@ -40,20 +50,20 @@ const Card: React.FC = (): JSX.Element => {
         <CardDetailBtn onClick={HandleOverLay}>
           <div>&#43;</div>
         </CardDetailBtn>
-        <h2>CREATE BOOST</h2>
-        <h3>Data Period</h3>
-        <h2>Pick Date Range:</h2>
+        <h2>{props.name}</h2>
+        <h3>{props.lable}</h3>
+        <h2>{props.picklable}</h2>
         <PickDate>
-          <MockDate>2020-8-8</MockDate>
+          <MockDate>{props.firstDate}</MockDate>
           TO
-          <MockDate>2020-8-8</MockDate>
+          <MockDate>{props.SecondDate}</MockDate>
         </PickDate>
       </CardDetailOverlay>
       <CardContainer>
-        <CardBox>Boost</CardBox>
+        <CardBox>{props.secondLable}</CardBox>
         <CardDetail>
-          <CardTitle>LIKING</CardTitle>
-          <CardNumber>100</CardNumber>
+          <CardTitle>{props.finalLable}</CardTitle>
+          <CardNumber>{props.Num}</CardNumber>
         </CardDetail>
       </CardContainer>
     </Container>
