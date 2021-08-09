@@ -1,33 +1,33 @@
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
-type OverLay = {
+type props = {
   OnShow: boolean;
 };
 
-export const CardContainer = styled.div<OverLay>`
+export const CardContainer = styled.div`
   height: 100%;
   border-radius: 10px;
   border: 2px solid #eaeaea;
   position: relative;
   background-color: #fff;
-  ${(p) => p.OnShow && `border-color: transparent;`}
-  margin:0 10px;
+  margin: 0 10px;
+  z-index: 0;
 `;
 
-export const CardOverlay = styled.div<OverLay>`
+export const CardOverlay = styled.div<props>`
   user-select: none;
   border-radius: 10px;
   position: absolute;
   top: 0px;
   left: 50%;
   transform: translate(-50%, -8px);
-  width: 90%;
+  width: 80%;
   height: 50px;
   background-color: red;
-  z-index: -10;
   background-color: #fff;
   border: 2px solid #eaeaea;
   transition: transform ease 0.5s;
+  transition-delay: 0.2s;
   text-align: center;
   cursor: pointer;
   span {
@@ -36,15 +36,6 @@ export const CardOverlay = styled.div<OverLay>`
     font-weight: bold;
     line-height: 0.5;
   }
-  ${(p) =>
-    p.OnShow &&
-    `
-    transform: translate(-50%, -35px);
-    background-color:blue;
-   span {
-    color: white;
-  }
-  `}
 `;
 
 export const CardBox = styled.div`
@@ -76,46 +67,45 @@ export const CardNumber = styled.div`
   font-size: 25px;
 `;
 
-export const Container = styled.div`
-  width: 250px;
+export const Container = styled.div<props>`
+  width: 100%;
   height: 150px;
   position: relative;
-  z-index: 0;
-  &:hover ${CardOverlay} {
-    transform: translate(-50%, -35px);
+  margin-top: 100px;
+  span {
+    user-select: none;
+    opacity: 0;
+    transition: opacity ease-in 0.5s;
+  }
+  &:hover {
+    span {
+      opacity: 1;
+    }
+    ${CardOverlay} {
+      ${(p) =>
+        !p.OnShow &&
+        css`
+          transform: translate(-50%, -35px);
+        `}
+    }
   }
 `;
 
-export const animationfade = keyframes`
-0{
-  opacity: 0;
-}
-
-50{
-  opacity: .5;
-}
-
-100{
-  opacity: 1;
-}
-`;
-
-export const CardDetailOverlay = styled.div<OverLay>`
+export const CardDetailOverlay = styled.div<props>`
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
-  background-color: red;
   height: 200px;
   width: 100%;
   top: 0px;
-  z-index: 10;
   border-radius: 10px;
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s, opacity 0.2s linear;
   background: #fff;
   text-align: center;
+  z-index: 10;
   h2 {
     font-size: 12px;
     font-weight: 400;
@@ -145,6 +135,7 @@ export const CardDetailOverlay = styled.div<OverLay>`
     visibility: visible;
     opacity: 1;
     border: 2px solid #eaeaea;
+
   `}
 `;
 
@@ -156,4 +147,24 @@ export const MockDate = styled.div`
 export const PickDate = styled.div`
   display: flex;
   text-align: center;
+`;
+
+export const CardDetailBtn = styled.div`
+  position: absolute;
+  top: -40px;
+  border-radius: 10px;
+  background-color: red;
+  left: 50%;
+  width: 95%;
+  height: 40px;
+  transform: translate(-50%, 0);
+  background-color: blue;
+  cursor: pointer;
+  transition: color ease 1s;
+  div {
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+    line-height: 0.65;
+  }
 `;

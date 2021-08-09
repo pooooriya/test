@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import {
   CardBox,
   Container,
@@ -10,31 +10,46 @@ import {
   CardDetailOverlay,
   MockDate,
   PickDate,
+  CardDetailBtn,
 } from "./style";
 
 const Card: React.FC = (): JSX.Element => {
   const [state, setstate] = useState({
-    IsClicked: false,
+    IsShow: false,
   });
-  const HandleOverLay = () => {
-    setstate({ ...state, IsClicked: !state.IsClicked });
-  };
+  const ref = useRef(null);
+  const HandleOverLay = useCallback(() => {
+    setstate({ ...state, IsShow: !state.IsShow });
+  }, [state]);
+  const HandleCloseOverLay = useCallback(() => {
+    console.log("hell");
+    setstate({ ...state, IsShow: false });
+  }, [state]);
+
   return (
-    <Container>
-      <CardOverlay onClick={() => HandleOverLay()} OnShow={state.IsClicked}>
+    <Container
+      OnShow={state.IsShow}
+      tabIndex={0}
+      onBlur={HandleCloseOverLay}
+      ref={ref}
+    >
+      <CardOverlay onClick={HandleOverLay} OnShow={state.IsShow}>
         <span>&#43;</span>
       </CardOverlay>
-      <CardContainer OnShow={state.IsClicked}>
-        <CardDetailOverlay OnShow={state.IsClicked}>
-          <h2>CREATE BOOST</h2>
-          <h3>Data Period</h3>
-          <h2>Pick Date Range:</h2>
-          <PickDate>
-            <MockDate>2020-8-8</MockDate>
-            TO
-            <MockDate>2020-8-8</MockDate>
-          </PickDate>
-        </CardDetailOverlay>
+      <CardDetailOverlay OnShow={state.IsShow}>
+        <CardDetailBtn onClick={HandleOverLay}>
+          <div>&#43;</div>
+        </CardDetailBtn>
+        <h2>CREATE BOOST</h2>
+        <h3>Data Period</h3>
+        <h2>Pick Date Range:</h2>
+        <PickDate>
+          <MockDate>2020-8-8</MockDate>
+          TO
+          <MockDate>2020-8-8</MockDate>
+        </PickDate>
+      </CardDetailOverlay>
+      <CardContainer>
         <CardBox>Boost</CardBox>
         <CardDetail>
           <CardTitle>LIKING</CardTitle>
